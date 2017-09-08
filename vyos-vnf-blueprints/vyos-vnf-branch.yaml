@@ -223,7 +223,7 @@ node_templates:
               - template: templates/vyos-vnf-branch-baseline.txt
                 params:
                   BRANCH_HOSTNAME: { get_input: branch_hostname }
-                  BRANCH_LAN_ADDRESS: { get_input: branch_lan_address }
+                  BRANCH_LAN_ADDRESS: { get_attribute: [vyos_vnf_branch, networks, { get_input: branch_lan_name }, 0] }
               - action: commit
               - action: save
     relationships:
