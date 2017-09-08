@@ -334,12 +334,14 @@ node_templates:
         create:
           inputs:
             args:
+              gateway_ip: null
               cidr: { get_input: branch_lan_address }
               ip_version: 4
       cloudify.interfaces.validation:
         creation:
           inputs:
             args:
+              gateway_ip: null
               cidr: { get_input: branch_lan_address }
               ip_version: 4
     relationships:

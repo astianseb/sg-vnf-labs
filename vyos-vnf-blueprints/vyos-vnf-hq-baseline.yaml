@@ -174,12 +174,14 @@ node_templates:
         create:
           inputs:
             args:
+              gateway_ip: null
               cidr: 192.168.10.0/24
               ip_version: 4
       cloudify.interfaces.validation:
         creation:
           inputs:
             args:
+              gateway_ip: null
               cidr: 192.168.10.0/24
               ip_version: 4
     relationships:
@@ -204,12 +206,14 @@ node_templates:
         create:
           inputs:
             args:
+              gateway_ip: null
               cidr: 192.168.30.0/24
               ip_version: 4
       cloudify.interfaces.validation:
         creation:
           inputs:
             args:
+              gateway_ip: null
               cidr: 192.168.30.0/24
               ip_version: 4
     relationships:
