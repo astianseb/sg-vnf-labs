@@ -99,7 +99,7 @@ node_templates:
     properties:
       openstack_config: *openstack_config
       use_external_resource: true
-      resource_id: "router1"
+      resource_id: { get_secret: router_name }
 
   ip_2:
     type: cloudify.openstack.nodes.FloatingIP
@@ -222,21 +222,8 @@ node_templates:
     type: cloudify.openstack.nodes.Subnet
     properties:
       openstack_config: *openstack_config
-      use_external_resource: false
-      resource_id: public_net_subnet
-    interfaces:
-      cloudify.interfaces.lifecycle:
-        create:
-          inputs:
-            args:
-              cidr: 192.168.20.0/24
-              ip_version: 4
-      cloudify.interfaces.validation:
-        creation:
-          inputs:
-            args:
-              cidr: 192.168.20.0/24
-              ip_version: 4
+      use_external_resource: true
+      resource_id: private_subnet
     relationships:
     - target: private_network
       type: cloudify.relationships.contained_in
@@ -245,8 +232,8 @@ node_templates:
     type: cloudify.openstack.nodes.Network
     properties:
       openstack_config: *openstack_config
-      use_external_resource: false
-      resource_id: private_net
+      use_external_resource: true
+      resource_id: private_network
 
   security_group:
     type: cloudify.openstack.nodes.SecurityGroup

@@ -4,7 +4,7 @@ config firewall vip
         set portforward enable
         set mappedip "{{PORTFORWARD_IP}}"
         set extport {{PORTFORWARD_PORT}}
-        set mappedport 22
+        set mappedport 8080
     next
 end
 config firewall policy
@@ -16,7 +16,7 @@ config firewall policy
         set dstaddr "sg-port-forward-vip"
         set action accept
         set schedule "always"
-        set service "SSH"
+        set service "ALL"
         set logtraffic all
         set logtraffic-start enable
         set nat enable
