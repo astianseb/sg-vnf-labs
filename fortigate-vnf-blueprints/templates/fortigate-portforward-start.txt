@@ -2,8 +2,8 @@ config firewall vip
     edit "sg-port-forward-vip"
         set extintf "port2"
         set portforward enable
-        set mappedip "192.168.102.4"
-        set extport 55555
+        set mappedip "{{PORTFORWARD_IP}}"
+        set extport {{PORTFORWARD_PORT}}
         set mappedport 22
     next
 end

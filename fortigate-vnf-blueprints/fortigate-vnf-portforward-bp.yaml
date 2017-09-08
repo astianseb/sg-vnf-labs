@@ -10,6 +10,19 @@ imports:
 
 inputs:
 
+  portforward_ip:
+    type: string
+    description: >
+      IP address of PRIVATE host
+    default: '192.168.20.6'
+
+  portforward_port:
+    type: string
+    description: >
+      Port on which service is going to be exposed
+    default: '55555'
+
+
 node_templates:
 
   fortigate_vnf_deployment:
@@ -50,6 +63,9 @@ node_templates:
             terminal_auth: *terminal_auth
             calls:
               - template: templates/fortigate-portforward-start.txt
+                params:
+                  PORTFORWARD_IP: { get_input: portforward_ip }
+                  PORTFORWARD_PORT: { get_input: portforward_port }
         stop:
           inputs:
             terminal_auth: *terminal_auth
