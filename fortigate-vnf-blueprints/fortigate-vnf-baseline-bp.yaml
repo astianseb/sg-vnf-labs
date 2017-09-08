@@ -85,7 +85,32 @@ node_templates:
     - type: cloudify.relationships.depends_on
       target: fortigate_image
 
+#####################################################################################
+#   This part is neccessary to connect public_network into lab router1 in order     #
+#   to be able to assign floating ip to Fortinet public_network_port. FIP on        #
+#   Fortinet is neccessary to nicely demo rules opened on FW. You can point browser #
+#   directly from laptop to Fortinet FIP                                            #
+#                                                                                   #
+#                                                                                   #
+#####################################################################################
 
+  lab_router:
+    type: cloudify.openstack.nodes.Router
+    properties:
+      openstack_config: *openstack_config
+      use_external_resource: true
+      resource_id: "router1"
+
+  ip_2:
+    type: cloudify.openstack.nodes.FloatingIP
+    properties:
+      openstack_config: *openstack_config
+      floatingip:
+        floating_network_name: { get_secret: external_network_name }
+
+
+
+######################################################################################
   mgmt_port:
     type: cloudify.openstack.nodes.Port
     properties:
@@ -111,6 +136,8 @@ node_templates:
       target: public_network_subnet
     - type: cloudify.openstack.port_connected_to_security_group
       target: security_group
+    - type: cloudify.openstack.port_connected_to_floating_ip
+      target: ip_2
 
   private_network_port:
     type: cloudify.openstack.nodes.Port
@@ -177,6 +204,12 @@ node_templates:
     relationships:
     - target: public_network
       type: cloudify.relationships.contained_in
+    - target: lab_router
+      type: cloudify.relationships.depends_on
+    - target: lab_router
+      type: cloudify.openstack.subnet_connected_to_router
+     
+
 
   public_network:
     type: cloudify.openstack.nodes.Network
